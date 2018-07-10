@@ -68,6 +68,11 @@ int OnCalculate(const int rates_total,						// ignore all this
 	ArrayResize(wt1expand, 4, 1);
 	
 	int j;									// looping indices
+	for (j = Bars - 1; j >= Bars - MathMax(n1, n2); j--) {			// fill array elements between Bars - 1 and...
+		d[j] = 1.0;							// Bars - MathMax(n1,n2); they are zero otherwise
+	}									// d[j] goes in denominator; first...
+										// MathMax(n1,n2) elements will be 0 if not... 
+										// changed (look in the loop below)
 	
 	while (i >= 0) {							// pick a bar on chart
 		ap[i] = (High[i] + Low[i] + Close[i])/3.0;			// median price: ap = hlc3
@@ -86,9 +91,7 @@ int OnCalculate(const int rates_total,						// ignore all this
 		
 		d[i] = iMAOnArray(diff, 0, n1, 0, MODE_EMA, 0);			// EMA of that difference:...
 										// d = ema(abs(ap - esa), n1)
-		for (j = Bars - 1; j >= Bars - MathMax(n1, n2); j--) {		// fill array elements between Bars - 1 and...
-			d[j] = d[i];						// Bars - MathMax(n1,n2); they are zero otherwise
-		}
+										// remember d[i] = 1 for i > Bars - MathMax(n1,n2)?
 		
 		for (j = i; j < i + n2; j++) {					// collect info on all earlier bars;...
 										// increment in j means moving left of chart
