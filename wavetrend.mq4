@@ -53,12 +53,23 @@ int OnCalculate(const int rates_total,						// ignore all this
 	double ap[], esa[], diff[], d[], ci[], tci[];				// declare arrays
 	double wt1expand[];							// expand on first wavetrend to...
 										// calculate second wavetrend
+	ArrayResize(ap, Bars, 1);						// allocate memory for the arrays
+	ArrayResize(esa, Bars, 1);
+	ArrayResize(diff, n1, 1);
+	ArrayResize(d, Bars, 1);
+	ArrayResize(ci, n2, 1);
+	ArrayResize(tci, Bars, 1);
 	
 	int j, k;								// looping indices
 	
 	while (i >= 0) {							// pick a bar on chart
 		ap[i] = (High[i] + Low[i] + Close[i])/3.0;			// median price: ap = hlc3
 		esa[i] = iMA(symb, 0, n1, 0, MODE_EMA, PRICE_TYPICAL, 0);	// EMA median price: esa = ema(ap, n1)
+		
+		if (i > Bars - n1 - 1) {					// check if still on the left-most bar...
+			i--;							// cannot perform any calculations...
+			continue;						// until reaching Bar-n1-1
+		}
 		
 		for (j = i; j < i + n1; j++) {					// collect info on all earlier bars;...
 										// increment in j means moving left of chart
