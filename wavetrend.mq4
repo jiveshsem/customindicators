@@ -1,7 +1,7 @@
 #property strict
 #property indicator_separate_window						// use a different window for indicator
 #property indicator_buffers 3							// number of buffers (indicators) used:...
-																	// wt1, wt2, diffwt = wt1 - wt2
+										// wt1, wt2, diffwt = wt1 - wt2
 #property indicator_color1 Green						// color for wt1
 #property indicator_color2 Red							// color for wt2
 #property indicator_color3 Blue							// color for diffwt = wt1 - wt2
@@ -42,7 +42,7 @@ int OnCalculate(const int rates_total,						// ignore all this
                 const int &spread[]) {
 	
 	string symb = Symbol();							// symbol of security in which the...
-																	// indicator is dropped
+										// indicator is dropped
 	
 	double overbought = 70;							// overbought line on oscillator
 	double oversold = -70;							// oversold line on oscillator
@@ -63,14 +63,14 @@ int OnCalculate(const int rates_total,						// ignore all this
 		for (j = i; j < i + n1; j++) {					// collect info on all earlier bars;...
 										// increment in j means moving left of chart
 			diff[j - i] = MathAbs(ap[j] - esa[j]);			// difference between median and
-																	// EMA median price
+										// EMA median price
 		}
 		
 		d[i] = iMAOnArray(diff, 0, n1, 0, MODE_EMA, 0);			// EMA of that difference:...
-																	// d = ema(abs(ap - esa), n1)
+										// d = ema(abs(ap - esa), n1)
 		
 		for (j = i; j < i + n2; j++) {					// collect info on all earlier bars;...
-																	// increment in j means moving left of chart
+										// increment in j means moving left of chart
 			ci[j - i] = (ap[j] - esa[j])/(0.015 * d[j]);		// prepare ci for current bar
 		}
 		
@@ -80,13 +80,13 @@ int OnCalculate(const int rates_total,						// ignore all this
 		
 		for (k = i; k < i + 4; k++) {
 			wt1expand[k - i] = tci[k];				// define array on wt1 for SMA calculation...
-																	// of wt2
+										// of wt2
 		}
 		wt2[i] = iMAOnArray(wt1expand, 0, 4, 0, MODE_SMA, 0);		// set second wavetrend buffer:
-																	// wt2 = sma(wt1, 4)
+										// wt2 = sma(wt1, 4)
 		diffwt[i] = wt1[i] - wt2[i];					// set difference buffer: wt1 - wt2
 		
-		i--;														// move to next bar on right
+		i--;								// move to next bar on right
 	}
 	
 //--- return value of prev_calculated for next call
