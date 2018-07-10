@@ -114,7 +114,7 @@ int OnCalculate(const int rates_total,						// ignore all this
 	}
 	
 //--- return value of prev_calculated for next call
-	return(rates_total);							// exit when reaching current bar
+	return(rates_total);							// exit when reached current bar
 	
 }
 //+------------------------------------------------------------------+
