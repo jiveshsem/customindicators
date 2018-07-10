@@ -6,6 +6,15 @@
 #property indicator_color2 Red							// colour for wt2
 #property indicator_color3 Blue							// colour for diffwt = wt1 - wt2
 
+#property indicator_level1 60.0							// mark +/- 60 in indicator window
+#property indicator_level2 -60.0
+#property indicator_levelcolor Black
+#property indicator_levelwidth 2
+#property indicator_level3 53.0							// mark +/- 53 in indicator window
+#property indicator_level4 -53.0
+#property indicator_levelcolor Black
+#property indicator_levelwidth 2
+
 //+------------------------------------------------------------------+
 //| Custom indicator initialization function                         |
 //+------------------------------------------------------------------+
@@ -59,8 +68,9 @@ int OnCalculate(const int rates_total,						// ignore all this
 	ArrayResize(d, Bars, 1);
 	ArrayResize(ci, n2, 1);
 	ArrayResize(tci, Bars, 1);
+	ArrayResize(wt1expand, 4, 1);
 	
-	int j, k;								// looping indices
+	int j;									// looping indices
 	
 	while (i >= 0) {							// pick a bar on chart
 		ap[i] = (High[i] + Low[i] + Close[i])/3.0;			// median price: ap = hlc3
@@ -92,8 +102,8 @@ int OnCalculate(const int rates_total,						// ignore all this
 		
 		wt1[i] = tci[i];						// set first wave trend buffer: wt1 = tci
 		
-		for (k = i; k < i + 4; k++) {
-			wt1expand[k - i] = tci[k];				// define array on wt1 for SMA calculation...
+		for (j = i; j <= i + 4 - 1; j++) {
+			wt1expand[j - i] = tci[j];				// define array on wt1 for SMA calculation...
 										// of wt2
 		}
 		wt2[i] = iMAOnArray(wt1expand, 0, 4, 0, MODE_SMA, 0);		// set second wavetrend buffer:
