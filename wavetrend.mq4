@@ -67,7 +67,7 @@ int OnCalculate(const int rates_total,						// ignore all this
 	ArrayResize(tci, Bars, 1);
 	ArrayResize(wt1expand, 4, 1);
 	
-	int j;									// looping indices
+	int j;									// looping index (for loops below)
 	for (j = Bars - 1; j >= Bars - MathMax(n1, n2); j--) {			// fill array elements between Bars - 1 and...
 		d[j] = 1.0;							// Bars - MathMax(n1,n2); they are zero otherwise
 	}									// d[j] goes in denominator; first...
