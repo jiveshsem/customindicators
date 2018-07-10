@@ -53,9 +53,6 @@ int OnCalculate(const int rates_total,						// ignore all this
 	string symb = Symbol();							// symbol of security in which the...
 										// indicator is dropped
 	
-	double overbought = 70;							// overbought line on oscillator
-	double oversold = -70;							// oversold line on oscillator
-	
 	int counted_bars = IndicatorCounted();					// total bars counted so far
 	int i = Bars - counted_bars - 1;					// starting from left-most bar in window
 	
@@ -76,7 +73,7 @@ int OnCalculate(const int rates_total,						// ignore all this
 		ap[i] = (High[i] + Low[i] + Close[i])/3.0;			// median price: ap = hlc3
 		esa[i] = iMA(symb, 0, n1, 0, MODE_EMA, PRICE_TYPICAL, 0);	// EMA median price: esa = ema(ap, n1)
 		
-		if (i > Bars - MathMax(n1, n2) - 1) {				// check if sufficient left-most bars...
+		if (i > Bars - MathMax(n1, n2) - 1) {				// check if sufficient number of left bars...
 			i--;							// cannot perform any calculations...
 			continue;						// until reaching Bar-Max(n1,n2)-1
 		}
@@ -84,7 +81,7 @@ int OnCalculate(const int rates_total,						// ignore all this
 		for (j = i; j < i + n1; j++) {					// collect info on all earlier bars;...
 										// increment in j means moving left of chart
 			diff[j - i] = MathAbs(ap[j] - esa[j]);			// difference between median and
-										// EMA median price
+										// EMA(median) price
 		}
 		
 		d[i] = iMAOnArray(diff, 0, n1, 0, MODE_EMA, 0);			// EMA of that difference:...
@@ -95,12 +92,12 @@ int OnCalculate(const int rates_total,						// ignore all this
 		
 		for (j = i; j < i + n2; j++) {					// collect info on all earlier bars;...
 										// increment in j means moving left of chart
-			ci[j - i] = (ap[j] - esa[j])/(0.015 * d[j]);		// prepare ci for current bar
+			ci[j - i] = (ap[j] - esa[j])/(0.015 * d[j]);		// prepare ci for bar
 		}
 		
 		tci[i] = iMAOnArray(ci, 0, n2, 0, MODE_EMA, 0);			// EMA of ci: tci = ema(ci, n2)
 		
-		wt1[i] = tci[i];						// set first wave trend buffer: wt1 = tci
+		wt1[i] = tci[i];						// set first wavetrend buffer: wt1 = tci
 		
 		for (j = i; j <= i + 4 - 1; j++) {
 			wt1expand[j - i] = tci[j];				// define array on wt1 for SMA calculation...
