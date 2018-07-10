@@ -2,9 +2,9 @@
 #property indicator_separate_window						// use a different window for indicator
 #property indicator_buffers 3							// number of buffers (indicators) used:...
 										// wt1, wt2, diffwt = wt1 - wt2
-#property indicator_color1 Green						// color for wt1
-#property indicator_color2 Red							// color for wt2
-#property indicator_color3 Blue							// color for diffwt = wt1 - wt2
+#property indicator_color1 Green						// colour for wt1
+#property indicator_color2 Red							// colour for wt2
+#property indicator_color3 Blue							// colour for diffwt = wt1 - wt2
 
 //+------------------------------------------------------------------+
 //| Custom indicator initialization function                         |
@@ -54,7 +54,7 @@ int OnCalculate(const int rates_total,						// ignore all this
 	double wt1expand[];							// expand on first wavetrend to...
 										// calculate second wavetrend
 	ArrayResize(ap, Bars, 1);						// allocate memory for the arrays
-	ArrayResize(esa, Bars, 1);
+	ArrayResize(esa, Bars, 1);						// all these arrays are initialised to zero
 	ArrayResize(diff, n1, 1);
 	ArrayResize(d, Bars, 1);
 	ArrayResize(ci, n2, 1);
@@ -66,7 +66,7 @@ int OnCalculate(const int rates_total,						// ignore all this
 		ap[i] = (High[i] + Low[i] + Close[i])/3.0;			// median price: ap = hlc3
 		esa[i] = iMA(symb, 0, n1, 0, MODE_EMA, PRICE_TYPICAL, 0);	// EMA median price: esa = ema(ap, n1)
 		
-		if (i > Bars - MathMax(n1, n2) - 1) {				// check if sufficient left-most bar...
+		if (i > Bars - MathMax(n1, n2) - 1) {				// check if sufficient left-most bars...
 			i--;							// cannot perform any calculations...
 			continue;						// until reaching Bar-Max(n1,n2)-1
 		}
@@ -79,6 +79,9 @@ int OnCalculate(const int rates_total,						// ignore all this
 		
 		d[i] = iMAOnArray(diff, 0, n1, 0, MODE_EMA, 0);			// EMA of that difference:...
 										// d = ema(abs(ap - esa), n1)
+		for (j = Bars - 1; j >= Bars - MathMax(n1, n2); j--) {		// fill the bars between Bars - 1 and...
+			d[j] = d[i];						// Bars - MathMax(n1,n2); they are zero otherwise
+		}
 		
 		for (j = i; j < i + n2; j++) {					// collect info on all earlier bars;...
 										// increment in j means moving left of chart
