@@ -104,7 +104,7 @@ int OnCalculate(const int rates_total,						// ignore all this
 		
 		for (j = i; j <= i + 4 - 1; j++) {
 			wt1expand[j - i] = tci[j];				// define array on wt1 for SMA calculation...
-										// of wt2
+										// for estimating wt2
 		}
 		wt2[i] = iMAOnArray(wt1expand, 0, 4, 0, MODE_SMA, 0);		// set second wavetrend buffer:
 										// wt2 = sma(wt1, 4)
@@ -114,7 +114,7 @@ int OnCalculate(const int rates_total,						// ignore all this
 	}
 	
 //--- return value of prev_calculated for next call
-	return(rates_total);
+	return(rates_total);							// exit when reaching current bar
 	
 }
 //+------------------------------------------------------------------+
