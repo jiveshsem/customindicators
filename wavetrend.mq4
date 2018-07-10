@@ -36,8 +36,8 @@ int OnInit() {
 //| Custom indicator iteration function                              |
 //+------------------------------------------------------------------+
 
-extern int n1 = 10;								// channel Length
-extern int n2 = 21;								// average Length
+extern int n1 = 10;								// channel length
+extern int n2 = 21;								// average length
 
 int OnCalculate(const int rates_total,						// ignore all this
                 const int prev_calculated,
