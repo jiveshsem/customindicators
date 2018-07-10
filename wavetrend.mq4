@@ -48,7 +48,7 @@ int OnCalculate(const int rates_total,						// ignore all this
 	double oversold = -70;							// oversold line on oscillator
 	
 	int counted_bars = IndicatorCounted();					// total bars counted so far
-	int i = Bars - counted_bars - 1;					// current bar
+	int i = Bars - counted_bars - 1;					// starting from left-most bar in window
 	
 	double ap[], esa[], diff[], d[], ci[], tci[];				// declare arrays
 	double wt1expand[];							// expand on first wavetrend to...
