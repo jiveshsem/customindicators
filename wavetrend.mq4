@@ -1,3 +1,6 @@
+#property copyright "digitalfakir"
+#property link      ""
+#property version   "1.00"
 #property strict
 #property indicator_separate_window						// use a different window for indicator
 #property indicator_buffers 3							// number of buffers (indicators) used:...
