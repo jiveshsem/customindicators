@@ -11,12 +11,11 @@
 
 #property indicator_level1 60.0							// mark +/- 60 in indicator window
 #property indicator_level2 -60.0
-#property indicator_levelcolor Black
-#property indicator_levelwidth 2
 #property indicator_level3 53.0							// mark +/- 53 in indicator window
 #property indicator_level4 -53.0
+#property indicator_level5 0
 #property indicator_levelcolor Black
-#property indicator_levelwidth 2
+#property indicator_levelwidth 1
 
 //+------------------------------------------------------------------+
 //| Custom indicator initialization function                         |
