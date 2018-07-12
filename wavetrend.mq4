@@ -55,7 +55,7 @@ int OnCalculate(const int rates_total,						// ignore all this
 	string symb = Symbol();							// symbol of security in which the...
 										// indicator is dropped
 	
-	int counted_bars = IndicatorCounted();					// total bars counted so far
+	int counted_bars = prev_calculated;					// total bars counted so far
 	int i = Bars - counted_bars - 1;					// starting from left-most bar in window
 	
 	double ap[], esa[], diff[], d[], ci[], tci[];				// declare arrays
