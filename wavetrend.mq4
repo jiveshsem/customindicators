@@ -97,7 +97,8 @@ int OnCalculate(const int rates_total,						// ignore all this
 		
 		for (j = i; j < i + n2; j++) {					// collect info on all earlier bars;...
 										// increment in j means moving left of chart
-			ci[j - i] = (ap[j] - esa[j])/(0.015 * d[j]);		// prepare ci for bar
+			ci[j - i] = (ap[j] - esa[j])/(0.020 * d[j]);		// prepare ci for bar; 0.020 is better value for...
+										// denominator, to keep oscillator within +/-100
 		}
 		
 		tci[i] = iMAOnArray(ci, 0, n2, 0, MODE_EMA, 0);			// EMA of ci: tci = ema(ci, n2)
