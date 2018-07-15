@@ -38,8 +38,9 @@ int OnInit() {
 //| Custom indicator iteration function                              |
 //+------------------------------------------------------------------+
 
-extern int n1 = 10;								// channel length
-extern int n2 = 21;								// average length
+extern int n1 = 10;								// channel length (green)
+extern int n2 = 21;								// average length (red)
+extern int ns = 5;								// slowing (SMA) (blue)
 
 int OnCalculate(const int rates_total,						// ignore all this
                 const int prev_calculated,
@@ -67,7 +68,7 @@ int OnCalculate(const int rates_total,						// ignore all this
 	ArrayResize(d, Bars, 1);
 	ArrayResize(ci, n2, 1);
 	ArrayResize(tci, Bars, 1);
-	ArrayResize(wt1expand, 4, 1);
+	ArrayResize(wt1expand, ns, 1);
 	
 	int j;									// looping index (for loops below)
 	for (j = Bars - 1; j >= Bars - MathMax(n1, n2); j--) {			// fill array elements between Bars - 1 and...
@@ -105,11 +106,11 @@ int OnCalculate(const int rates_total,						// ignore all this
 		
 		wt1[i] = tci[i];						// set first wavetrend buffer: wt1 = tci
 		
-		for (j = i; j <= i + 4 - 1; j++) {
+		for (j = i; j <= i + ns - 1; j++) {
 			wt1expand[j - i] = tci[j];				// define array on wt1 for SMA calculation...
 										// for estimating wt2
 		}
-		wt2[i] = iMAOnArray(wt1expand, 0, 4, 0, MODE_SMA, 0);		// set second wavetrend buffer:
+		wt2[i] = iMAOnArray(wt1expand, 0, ns, 0, MODE_SMA, 0);		// set second wavetrend buffer:
 										// wt2 = sma(wt1, 4)
 		diffwt[i] = wt1[i] - wt2[i];					// set difference buffer: wt1 - wt2
 		
